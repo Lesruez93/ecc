@@ -1,0 +1,56 @@
+<div class="main-content">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
+  <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
+
+  <div class="container-fluid">
+
+
+    <div class="table-responsive">
+      <table class="table table-shopping">
+        <thead>
+        <tr>
+          <th class="text-center">Profile Picture</th>
+          <th class="th-description">Name </th>
+          <th class="th-description">Email</th>
+          <th  class="th-description">Role</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let product of users">
+          <td (click)="goto(product)">
+            <div class="img-container">
+              <div  class="photo">
+                <img style="border-radius: 60px;height: 40px;width: auto;" src="{{product.photoURL}}" >
+              </div>
+            </div>
+          </td>
+          <td >
+            <h5>{{product.displayName}}</h5>
+
+          </td>
+          <td > <a href="mailto:{{product.email}}" target="_blank">{{product.email}}</a></td>
+          <td >
+            <h4 style="color:firebrick;" >{{product.role}}</h4>
+            <mat-select *ngIf="userrole == 'Admin'" style="font-size: small" placeholder="Change Role" (selectionChange)="update(product,role)"  [(ngModel)]="role"  >
+              <mat-option value="Admin"> Admin
+              </mat-option>
+
+              <mat-option value="Technician" >Technician
+              </mat-option>
+            </mat-select>
+          </td>
+
+        </tr>
+        <tr>
+
+
+
+        </tr>
+        <tr>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div></div>

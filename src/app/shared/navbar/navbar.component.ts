@@ -204,7 +204,7 @@ export class NavbarComponent implements OnInit {
                 }
             }
         }
-        return 'Dashboard';
+        return 'Home';
     }
     getPath() {
         return this.location.prepareExternalUrl(this.location.path());

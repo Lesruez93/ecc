@@ -11,6 +11,7 @@ import {EditorModule} from '@tinymce/tinymce-angular';
 import {NgxSummernoteModule} from 'ngx-summernote';
 import {ListsRoutes} from './lists.routing';
 import {ListsComponent} from './lists.component';
+import {MomentModule} from 'ngx-moment';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import {ListsComponent} from './lists.component';
         VgBufferingModule,
 
         EditorModule,
-        NgxSummernoteModule
+        NgxSummernoteModule,
+        MomentModule
     ],
   declarations: [ListsComponent]
 })

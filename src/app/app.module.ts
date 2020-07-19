@@ -65,7 +65,7 @@ import {AngularFireStorageModule} from '@angular/fire/storage';
 import {environment} from '../environments/environment';
 import {AngularFireAuthModule} from '@angular/fire/auth';
 import {HttpClientModule} from '@angular/common/http';
-import { KeyvaluePipe } from './keyvalue.pipe';
+import {KeyvaluePipe} from './keyvalue.pipe';
 
 export const firebaseConfig = environment.firebaseConfig;
 

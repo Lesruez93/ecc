@@ -1,205 +1,83 @@
-<div class="main-content" style="background-color: #89609E">
+<div class="main-content" >
 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
 
-    <div class="container-fluid" style=" padding: 3%">
-        <div style="text-align: -webkit-center;">  <button type="button"  data-toggle="modal" data-target="#listModal"class="btn note-btn-primary" >Add List</button> </div>
-
-
-        <div class="row" style=" padding: 3%">
-
-                  <div class="col-md-3 card" *ngFor=" let c of cards" style="background-color: #EBECF0; margin: 10px" >
-                      <div class="card-header card-header-icon card-icon card-header-primary">
-
-                          <h6 class="card-title">{{c.title}}</h6>
-
-                      </div>
-
-
-
-                          <div class="card " *ngFor="let l of c?.list | keyvalue" >
-                              <span *ngIf="l.value.status == 'done'" class="card-label card-label-green mod-card-front" title=""><span class="label-text">&nbsp;</span></span>
-                              <span *ngIf="l.value.status == 'notdone'" class="card-label card-label-red mod-card-front" title=""><span class="label-text">&nbsp;</span></span>
-                              <span *ngIf="l.value.status == 'working'" class="card-label card-label-orange mod-card-front" title=""><span class="label-text">&nbsp;</span></span>
-
-                              <div class="modal fade" id="dateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                  <div class="modal-dialog" role="document">
-                                      <div class="modal-content">
-                                          <div class="modal-header">
-                                              <h5 class="modal-title" id="dateModalLabel">Change Due Date</h5>
-                                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                  <span aria-hidden="true">&times;</span>
-                                              </button>
-                                          </div>
-                                          <div class="modal-body">
-                                              <div class="card-body">
-
-
-                                                  <div class="form-group">
-                                                      <mat-form-field >
-                                                          <input matInput [matDatepicker]="picker" [(ngModel)]="date" placeholder="Date Date" (click)="picker.open()">
-                                                          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                                                          <mat-datepicker #picker></mat-datepicker>
-                                                      </mat-form-field>
-                                                  </div>
-
-
-                                              </div>
-
-                                          </div>
-                                          <div class="modal-footer">
-                                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                              <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="saveDate(l,c)">Save changes</button>
-                                          </div>
-                                      </div>
-                                  </div>
-
-                              </div>
-
-                              <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
-                                  <div class="modal-dialog" role="document">
-                                      <div class="modal-content">
-                                          <div class="modal-header">
-                                              <h5 class="modal-title" id="editModalLabel">Edit List</h5>
-                                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                  <span aria-hidden="true">&times;</span>
-                                              </button>
-                                          </div>
-                                          <div class="modal-body">
-                                              <div class="card-body">
-
-                                                  <div class="form-group">
-                                                      <input class="form-control form-control-lg" [(ngModel)]="title" type="text" placeholder="Title" autocomplete="on">
-                                                  </div>
-
-
-                                              </div>
-
-                                          </div>
-                                          <div class="modal-footer">
-                                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                              <button type="button" class="btn btn-primary"  (click)="update(l,c)">Update</button>
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>
-
-
-                              <div class="card-header card-header-icon card-icon card-header-primary">
-
-                                  <p class="card-title">{{l.value.title}}</p>
-
-                              </div>
-                              <div style="color:red; -webkit-align-self: center">
-                                  <p>{{l.value.duedate.toDate()| date: 'dd/MM/yyyy'}}</p>
-
-                              </div>
-
-
-                                  <div class="td-actions text-right">
-                                      <div class="dropdown show">
-                                  <button mat-raised-button type="button" data-toggle="dropdown"  class="btn btn-primary btn-link btn-sm">
-                                      <i class="material-icons">more_vert</i>
-                                  </button>
-
-
-                                          <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                              <a class="dropdown-item" (click)="edit(l,c)" data-toggle="modal" data-target="#editModal">Edit</a>
-                                              <a class="dropdown-item" (click)="delete(l,c)" >Delete</a>
-                                              <a class="dropdown-item" (click)="done(l,c)" >Done</a>
-                                              <a class="dropdown-item" (click)="progress(l,c)" >In Progress</a>
-                                              <a class="dropdown-item" (click)="notdone(l,c)" >Not Done</a>
-                                              <a class="dropdown-item" data-toggle="modal" data-target="#dateModal" (click)="due(l,c)" >Change Due Date</a>
-<!--                                              <a class="dropdown-item" (click)="comment(l)" >Comment</a>-->
-
-
-                                          </div>
-                                      </div>
-
-
-                              </div>
-
-                          </div>
-
-
-                      <div class="stats" style="    align-self: center;" (click)="assg(c)"  data-toggle="modal" data-target="#exampleModal">
-                       <div *ngIf="cards.length > 0">
-                          <i class="material-icons " >note_add</i>
-                          <a >Add another card</a>
-                          </div>
-
-                      </div>
-
-                  </div>
-
-
-              </div>
-
-
-        </div>
-      </div>
-    
-
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Add card</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="card-body">
-
-                    <div class="form-group">
-                        <input class="form-control form-control-lg" [(ngModel)]="title" type="text" placeholder="Title" autocomplete="on">
-                    </div>
-
-                    <div class="form-group">
-                        <mat-form-field >
-                            <input matInput [matDatepicker]="picker" [(ngModel)]="date" placeholder="Due Date" (click)="picker.open()">
-                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                            <mat-datepicker #picker></mat-datepicker>
-                        </mat-form-field>
-                    </div>
+    <div class="container-fluid">
+        <br/><br/><br/>
+    <div class="card">
+        <div class="table-responsive table-hover">
+            <div class="row">
+                <div class="col-lg-4">
 
                 </div>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="saveCard()">Save changes</button>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="listModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="listModalLabel">Add list</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="card-body">
-
-                    <div class="form-group">
-                        <input class="form-control form-control-lg" [(ngModel)]="title" type="text" placeholder="Title" autocomplete="on">
-                    </div>
-
-
-
+                <div class="col-lg-8">
+                    <input matInput [matDatepicker]="picker3"  (dateChange)="filter()" [(ngModel)]="date" placeholder="Filter By Date" (click)="picker.open()">
+                    <mat-datepicker-toggle  matSuffix [for]="picker3"></mat-datepicker-toggle>
+                    <mat-datepicker #picker3></mat-datepicker>
                 </div>
+            </div>
+            <table class="table table-striped">
 
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="save()">Save changes</button>
-            </div>
+                <thead class="thead-light">
+
+                <tr>
+                    <th >Device Serial</th>
+                    <th>Device Type</th>
+                    <th>Object Name</th>
+                    <th>Make </th>
+                    <th>Model</th>
+                    <th>ICCID</th>
+                    <th>Service Number</th>
+                    <th>Customer Name </th>
+                    <th>Date</th>
+                    <th>Technician Name</th>
+                    <th>Confirmed By</th>
+                    <th *ngIf="role == 'Admin'">Actions</th>
+
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let record of cards">
+                    <ng-container *ngIf="cards.length >0">
+                    <td>{{record.deviceserial}}</td>
+                    <td>{{record.devicetype}}</td>
+                    <td>{{record.objectname}}</td>
+                    <td>{{record.make}}</td>
+                    <td>{{record.model}}</td>
+                    <td>{{record.ICCID}}</td>
+                    <td>{{record.servicenumber}}</td>
+                    <td>{{record.customername}}</td>
+                    <td >{{record.date|date:'mediumDate'}} </td>
+                    <td>{{record.technicianname}}</td>
+                    <td>{{record.confirmedby}}</td>
+
+
+
+
+
+                    <td class="td-actions text-right">
+
+<!--                        <button mat-raised-button type="button" (click)="showEdit(record)" class="btn btn-success btn-link">-->
+<!--                            <i class="material-icons">edit</i>-->
+<!--                        </button>-->
+                        <button *ngIf="role == 'Admin'" mat-raised-button type="button" (click)="deleteLixst(record.docid)" class="btn btn-danger btn-link">
+                            <i class="material-icons">close</i>
+                        </button>
+                    </td>
+
+                    </ng-container>
+
+                </tr>
+                <tr *ngIf="cards.length < 0 ">
+
+                        <h6 class="text-center text-danger" >No records found for the selected filters</h6>
+
+                </tr>
+                </tbody>
+            </table>
         </div>
-    </div>
-
+    </div></div>
 </div>
-

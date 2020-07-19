@@ -31,7 +31,9 @@ export const AppRoutes: Routes = [
                 loadChildren: './charts/charts.module#ChartsModule'
             },
 
-
+          {
+              path: '',
+              loadChildren: './users/users.module#UsersModule'},
 
             {      
                 path: '',

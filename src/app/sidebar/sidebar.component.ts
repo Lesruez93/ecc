@@ -45,13 +45,15 @@ export const ROUTES: RouteInfo[] = [{
     //         {path: 'devotions', title: 'Devotions', ab:'D'},
     //         {path: 'notices', title: 'Notices', ab:'N'}
     //     ]
-    // },{
-    //     path: '/media',
-    //     title: 'Media',
-    //     type: 'link',
-    //     icontype: 'content_paste',
+    // }
     //
-    // },
+    {
+        path: '/users',
+        title: 'users',
+        type: 'link',
+        icontype: 'people',
+
+    },
 
 
 
