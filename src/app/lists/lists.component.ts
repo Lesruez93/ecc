@@ -20,6 +20,19 @@ export class ListsComponent implements OnInit {
   date: any;
   private role: any;
   picker: any;
+  fields: any = [
+    "deviceserial",
+  "devicetype",
+  "objectname",
+  "make",
+  "ICCID",
+  "servicenumber",
+  "customername",
+  "technicianname",
+  "model"
+  ];
+  private field: any = 'deviceserial';
+  private value: any;
 
   constructor(
               private db:AngularFirestore,
@@ -27,10 +40,7 @@ export class ListsComponent implements OnInit {
               private route: ActivatedRoute,
               private cdr:ChangeDetectorRef,
               public afAuth:AngularFireAuth) {
-    this.db.collection('menu').doc(this.route.snapshot.paramMap.get('id'))
-        .collection('records').valueChanges({idField:'docid'}).subscribe(res=>{
-      this.cards = res
-    })
+   this.loadData()
   }
 
     ngOnInit(): void {
@@ -199,4 +209,24 @@ export class ListsComponent implements OnInit {
   this.cards = res
 })
   }
+
+  filterr() {
+    this.db.collection('menu').doc(this.route.snapshot.paramMap.get('id'))
+        .collection('records',ref => ref.where(this.field,'==',this.value)).valueChanges({idField:'docid'}).subscribe(res=>{
+      this.cards = res
+    })
+  }
+
+  refresh() {
+    this.loadData()
+  }
+
+  private loadData() {
+    this.db.collection('menu').doc(this.route.snapshot.paramMap.get('id'))
+        .collection('records').valueChanges({idField:'docid'}).subscribe(res=>{
+      this.cards = res
+    })
+  }
+
+
 }

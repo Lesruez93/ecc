@@ -9,13 +9,36 @@
     <div class="card">
         <div class="table-responsive table-hover">
             <div class="row">
-                <div class="col-lg-4">
 
+                <div class="col-lg" style="border: 1px solid #DDD">
+                    <div class="row">
+                    <div class="col-md-10">
+
+
+                    <input    type="text" [(ngModel)]="value" placeholder="Search">
+
+
+                    </div>
+                    <div class="col-md-2" (click)="filterr()">
+                    <i class="material-icons text-primary" >search</i>
+                    </div>
+                    </div>
                 </div>
-                <div class="col-lg-8">
+                <div class="col-lg">
+                    <mat-select style="font-size: small"  placeholder="Filter by"   [(ngModel)]="field"  >
+                        <mat-option  *ngFor="let f of fields" [value]="f"> {{f}}
+                        </mat-option>
+                    </mat-select>
+                </div>
+
+                <div class="col-lg">
                     <input matInput [matDatepicker]="picker3"  (dateChange)="filter()" [(ngModel)]="date" placeholder="Filter By Date" (click)="picker.open()">
                     <mat-datepicker-toggle  matSuffix [for]="picker3"></mat-datepicker-toggle>
                     <mat-datepicker #picker3></mat-datepicker>
+                </div>
+
+                <div class="col-lg">
+                   <button mat-button  style="background-color: #00acc1" (click)="refresh()">Refresh</button>
                 </div>
             </div>
             <table class="table table-striped">
