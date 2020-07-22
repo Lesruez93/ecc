@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {Router} from '@angular/router';
@@ -6,8 +6,7 @@ import * as moment from 'moment';
 import {GsService} from '../gs.service';
 import swal from 'sweetalert2';
 import {NotificationService} from '../notification.service';
-import {pureObjectDef} from '@angular/core/src/view';
-
+import * as jspdf from 'jspdf';
 declare const $: any;
 
 @Component({
@@ -19,6 +18,7 @@ export class DashboardComponent implements OnInit {
     polygon: any;
 
 
+    @ViewChild('content') content: ElementRef;
 
 
     private logged: boolean;
@@ -46,6 +46,13 @@ export class DashboardComponent implements OnInit {
     private role: any;
     field: any;
     fields: any;
+    private type: any;
+    private techname: any;
+    private reports: any;
+    private dateRange: any;
+    now: any = moment().format('YYYY-MM-DD');
+    report: boolean;
+    data: boolean;
 
     constructor(
         private  af:AngularFirestore,
@@ -55,8 +62,6 @@ export class DashboardComponent implements OnInit {
         private n:NotificationService,
     )
     {
-
-
 
 
         this.afs.authState.subscribe(res => {
@@ -189,6 +194,8 @@ export class DashboardComponent implements OnInit {
                 {
 
                     date: moment(this.date).format('YYYY-MM-DD'),
+                    timestamp:moment(this.date).valueOf(),
+
                     uid:this.afs.auth.currentUser.uid,
                     id:Date.now(),
                     deviceserial: this.deviceserial.toString(),
@@ -247,7 +254,8 @@ export class DashboardComponent implements OnInit {
             let data =
                 {
 
-                    date: moment().format('YYYY-MM-DD'),
+                    date: moment(this.date).format('YYYY-MM-DD'),
+                    timestamp:moment(this.date).valueOf(),
                     uid:this.afs.auth.currentUser.uid,
                     id:Date.now(),
                     deviceserial: this.deviceserial.toString(),
@@ -294,7 +302,9 @@ export class DashboardComponent implements OnInit {
             ) {
                 let data =
                     {
-                        date: moment().format('YYYY-MM-DD'),
+                        date: moment(this.date).format('YYYY-MM-DD'),
+                        timestamp:moment(this.date).valueOf(),
+
                         uid:this.afs.auth.currentUser.uid,
                         id:Date.now(),
                         deviceserial: this.deviceserial.toString(),
@@ -331,5 +341,71 @@ export class DashboardComponent implements OnInit {
 
     assg(t: any) {
         this.id = t.docid
+    }
+
+    generate() {
+
+        var someDate = new Date();
+        var numberOfDaysToAdd = 7;
+        var nex7 = someDate.setDate(someDate.getDate() + numberOfDaysToAdd);
+
+
+
+let date =  moment(Date.now()).format('YYYY-MM-DD')
+        let fDate = moment(date).valueOf()
+        if (this.dateRange== 'weekly'){
+            console.log(fDate)
+            console.log(nex7)
+            this.af.collection('menu').doc(this.type)
+                .collection('records',ref => ref.where("technicianname",'==',this.techname)
+                    .where('timestamp','>=',fDate).where(
+                        'timestamp','<=',nex7
+                    ))
+                .valueChanges({idField:'docid'}).subscribe(res=>{
+                this.reports = res
+                this.data = true
+                })
+
+        }
+        else if (this.dateRange == 'mo'){
+        }
+    else {
+            this.af.collection('menu').doc(this.type)
+            .collection('records',ref => ref.where("technicianname",'==',this.techname)
+            .where('date','==',this.dateRange))
+            .valueChanges({idField:'docid'}).subscribe(res=>{
+            this.reports = res
+            this.data = true
+        }
+)
+        }
+//
+//             this.af.collection('menu').doc(this.type)
+//             .collection('records',ref => ref.where("technicianname",'==',this.techname)
+//             .where('date','==',this.dateRange))
+//             .valueChanges({idField:'docid'}).subscribe(res=>{
+//             this.reports = res
+//             this.data = true
+//         }
+// )
+
+    }
+
+    downloadPdf():void {
+        const doc = new jspdf();
+
+        const specialElementHandlers = {
+            '#editor': function (element, renderer) {
+                return true;
+            }
+        };
+
+        const content = this.content.nativeElement;
+
+        doc.fromHTML(content.innerHTML, {
+
+        });
+
+        doc.save('report.pdf');
     }
 }
