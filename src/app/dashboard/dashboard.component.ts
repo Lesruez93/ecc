@@ -6,7 +6,10 @@ import * as moment from 'moment';
 import {GsService} from '../gs.service';
 import swal from 'sweetalert2';
 import {NotificationService} from '../notification.service';
-import * as jspdf from 'jspdf';
+import jsPDF from 'jspdf'
+import 'jspdf-autotable'
+
+const doc = new jsPDF()
 declare const $: any;
 
 @Component({
@@ -18,7 +21,6 @@ export class DashboardComponent implements OnInit {
     polygon: any;
 
 
-    @ViewChild('content') content: ElementRef;
 
 
     private logged: boolean;
@@ -363,7 +365,15 @@ let date =  moment(Date.now()).format('YYYY-MM-DD')
                     ))
                 .valueChanges({idField:'docid'}).subscribe(res=>{
                 this.reports = res
-                this.data = true
+                if (this.reports.length > 0){
+                    this.data = true
+                    this.report = false
+                }
+                else {
+                    this.n.showNotification('No Data for the Specified Filters','top','center','warning','No Data')
+
+                }
+
                 })
 
         }
@@ -375,8 +385,15 @@ let date =  moment(Date.now()).format('YYYY-MM-DD')
             .where('date','==',this.dateRange))
             .valueChanges({idField:'docid'}).subscribe(res=>{
             this.reports = res
-            this.data = true
-        }
+                if (this.reports.length > 0){
+                    this.data = true
+                    this.report = false
+                }
+                else {
+                    this.n.showNotification('No Data for the Specified Filters','top','center','warning','No Data')
+
+                }
+            }
 )
         }
 //
@@ -392,20 +409,10 @@ let date =  moment(Date.now()).format('YYYY-MM-DD')
     }
 
     downloadPdf():void {
-        const doc = new jspdf();
+        doc.autoTable({html: '#dt'})
 
-        const specialElementHandlers = {
-            '#editor': function (element, renderer) {
-                return true;
-            }
-        };
 
-        const content = this.content.nativeElement;
-
-        doc.fromHTML(content.innerHTML, {
-
-        });
-
-        doc.save('report.pdf');
+        doc.save('report.pdf')
+        this.data = false
     }
 }

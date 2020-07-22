@@ -33,10 +33,10 @@
   </div>
   <button *ngIf="report"    class="btn mat-button" (click)="generate()">Generate </button>
     <button *ngIf="data" class="btn mat-button text-center" (click)="downloadPdf()">Export to PDF</button>
-  <div *ngIf="data" #content>
+  <div *ngIf="data" >
 
 
-      <table  class="table table-striped">
+      <table  id="dt" class="table table-striped">
     <thead class="thead-light">
 
     <tr>
