@@ -2,7 +2,39 @@
 
     <div class="container-fluid">
       <br/><br/><br/>
+<div class="text-center " >
+  <button class="btn mat-button">Generate Reports</button>
+  <div class="row"  style="margin: 40px">
+    <div class="col-md">
+    <mat-select class="text-primary" placeholder="Type"   [(ngModel)]="type">
+      <mat-option  value="Installations">Installations
+      </mat-option>
+      <mat-option value="Daily">Repairs
+      </mat-option>
+      <mat-option value="Daily">Removal
+      </mat-option>
+    </mat-select>
+  </div>
+    <div class="col-md">
+    <mat-select style="font-size: small"  placeholder="Filter by"   [(ngModel)]="field"  >
+      <mat-option value="Technician Name"  >Technician Name
+      </mat-option>
+    </mat-select>
+    </div>
+    <div class="col-md">
+      <mat-select class="text-primary" placeholder="Period"   [(ngModel)]="dateRange"  >
+        <mat-option value="Daily">Daily
+        </mat-option>
+        <mat-option value="Daily">Weekly
+        </mat-option>
+        <mat-option value="Daily">Monthly
+        </mat-option>
+      </mat-select>
+    </div>
+  </div>
+  <button class="btn">Generate </button>
 
+</div>
         <div class="row">
             <div class="col-lg-3 col-md-6 col-sm-6"   *ngFor=" let t of menus" >
 
@@ -86,7 +118,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="save()">Save changes</button>
+        <button type="button" class="btn btn-primary"  (click)="save()">Save changes</button>
       </div>
     </div>
   </div>

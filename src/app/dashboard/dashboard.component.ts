@@ -6,6 +6,7 @@ import * as moment from 'moment';
 import {GsService} from '../gs.service';
 import swal from 'sweetalert2';
 import {NotificationService} from '../notification.service';
+import {pureObjectDef} from '@angular/core/src/view';
 
 declare const $: any;
 
@@ -41,7 +42,10 @@ export class DashboardComponent implements OnInit {
     model: any;
     private id: any;
     private Adminusers: any;
+
     private role: any;
+    field: any;
+    fields: any;
 
     constructor(
         private  af:AngularFirestore,
@@ -175,36 +179,49 @@ export class DashboardComponent implements OnInit {
 
 
     save() {
-        let data =
-            {
 
-                date: moment(this.date).format('YYYY-MM-DD'),
-                uid:this.afs.auth.currentUser.uid,
-                id:Date.now(),
-                deviceserial: this.deviceserial.toString(),
-                devicetype: this.devicetype,
-                objectname: this.objectname,
-                make: this.make,
-                ICCID: this.ICCID.toString(),
-                servicenumber: this.servicenumber,
-                customername: this.customername.toString(),
-                technicianname: this.technicianname,
-                confirmedby: this.confirmedby,
-                model: this.model,
-            }
-        this.af.collection('menu').doc(this.id).collection('records').add(data).then(res=>{
-            this.n.showNotification('Saved','top','center','success','Done')
-            this.devicetype = ''
-            this.deviceserial = ''
-            this.date = ''
-            this.ICCID = ''
+        if (this.date && this.deviceserial && this.devicetype &&
+            this.objectname && this.ICCID && this.servicenumber && this.make && this.model
+            && this.customername && this.technicianname && this.confirmedby
 
-            this.model = ''
-            this.confirmedby = ''
-            this.customername = ''
-            this.servicenumber = ''
-        })
-    }
+        ){
+            let data =
+                {
+
+                    date: moment(this.date).format('YYYY-MM-DD'),
+                    uid:this.afs.auth.currentUser.uid,
+                    id:Date.now(),
+                    deviceserial: this.deviceserial.toString(),
+                    devicetype: this.devicetype,
+                    objectname: this.objectname,
+                    make: this.make,
+                    ICCID: this.ICCID.toString(),
+                    servicenumber: this.servicenumber,
+                    customername: this.customername.toString(),
+                    technicianname: this.technicianname,
+                    confirmedby: this.confirmedby,
+                    model: this.model,
+                }
+            this.af.collection('menu').doc(this.id).collection('records').add(data).then(res=>{
+                this.n.showNotification('Saved','top','center','success','Done')
+                this.devicetype = ''
+                this.deviceserial = ''
+                this.date = ''
+                this.ICCID = ''
+
+                this.model = ''
+                this.confirmedby = ''
+                this.customername = ''
+                this.servicenumber = ''
+                $('#exampleModal').modal('hide')
+
+            })
+
+        }
+        else {
+            this.n.showNotification('Fill all fields','top','center','danger','Failed')
+        }
+        }
 
 
 
@@ -220,68 +237,96 @@ export class DashboardComponent implements OnInit {
     }
 
     saveRepair() {
-        let data =
-            {
 
-                date: moment().format('YYYY-MM-DD'),
-                uid:this.afs.auth.currentUser.uid,
-                id:Date.now(),
-                deviceserial: this.deviceserial.toString(),
-                devicetype: this.devicetype,
-                objectname: this.objectname,
-                make: this.make,
-                ICCID: this.ICCID.toString(),
-                servicenumber: this.servicenumber.toString(),
-                customername: this.customername,
-                technicianname: this.technicianname,
-                confirmedby: this.confirmedby,
-                model: this.model,
-            }
-            console.log(data)
-        this.af.collection('menu').doc(this.id).collection('records').add(data).then(res=>{
-            this.n.showNotification('Saved','top','center','success','Done')
-            this.devicetype = ''
-            this.deviceserial = ''
-            this.date = ''
-            this.ICCID = ''
 
-            this.model = ''
-            this.confirmedby = ''
-            this.customername = ''
-            this.servicenumber = ''
-            this.objectname = ''
-            this.technicianname = ''
-        })
-    }
+        if (this.date && this.deviceserial && this.devicetype &&
+            this.objectname && this.ICCID && this.servicenumber && this.make && this.model
+            && this.customername && this.technicianname && this.confirmedby
+
+        ){
+            let data =
+                {
+
+                    date: moment().format('YYYY-MM-DD'),
+                    uid:this.afs.auth.currentUser.uid,
+                    id:Date.now(),
+                    deviceserial: this.deviceserial.toString(),
+                    devicetype: this.devicetype,
+                    objectname: this.objectname,
+                    make: this.make,
+                    ICCID: this.ICCID.toString(),
+                    servicenumber: this.servicenumber.toString(),
+                    customername: this.customername,
+                    technicianname: this.technicianname,
+                    confirmedby: this.confirmedby,
+                    model: this.model,
+                }
+            this.af.collection('menu').doc(this.id).collection('records').add(data).then(res=>{
+                this.n.showNotification('Saved','top','center','success','Done')
+                this.devicetype = ''
+                this.deviceserial = ''
+                this.date = ''
+                this.ICCID = ''
+
+                this.model = ''
+                this.confirmedby = ''
+                this.customername = ''
+                this.servicenumber = ''
+                this.objectname = ''
+                this.technicianname = ''
+                $('#repairModal').modal('hide')
+
+            })
+
+        }
+        else {
+            this.n.showNotification('Fill all fields','top','center','danger','Failed')
+
+        }
+        }
 
     saveRemove() {
-        let data =
-            {
-                date: moment().format('YYYY-MM-DD'),
-                uid:this.afs.auth.currentUser.uid,
-                id:Date.now(),
-                deviceserial: this.deviceserial.toString(),
-                devicetype: this.devicetype,
-                objectname: this.objectname,
-                ICCID: this.ICCID.toString(),
-                servicenumber: this.servicenumber.toString(),
-                customername: this.customername,
-                technicianname: this.technicianname,
-                confirmedby: this.confirmedby,
+
+            if (this.date && this.deviceserial && this.devicetype &&
+                this.objectname && this.ICCID && this.servicenumber
+            && this.customername && this.technicianname && this.confirmedby
+
+            ) {
+                let data =
+                    {
+                        date: moment().format('YYYY-MM-DD'),
+                        uid:this.afs.auth.currentUser.uid,
+                        id:Date.now(),
+                        deviceserial: this.deviceserial.toString(),
+                        devicetype: this.devicetype,
+                        objectname: this.objectname,
+                        ICCID: this.ICCID.toString(),
+                        servicenumber: this.servicenumber.toString(),
+                        customername: this.customername,
+                        technicianname: this.technicianname,
+                        confirmedby: this.confirmedby,
+
+                    }
+                this.af.collection('menu').doc(this.id).collection('records').add(data).then(res=>{
+                    this.n.showNotification('Saved','top','center','success','Done')
+                    this.devicetype = ''
+                    this.deviceserial = ''
+                    this.date = ''
+                    this.ICCID = ''
+                    this.confirmedby = ''
+                    this.customername = ''
+                    this.servicenumber = ''
+                    this.objectname = ''
+                    this.technicianname = ''
+                    $('#removeModal').modal('hide')
+
+                })
+
+            }else {
+                this.n.showNotification('Fill all fields','top','center','danger','Failed')
 
             }
-        this.af.collection('menu').doc(this.id).collection('records').add(data).then(res=>{
-            this.n.showNotification('Saved','top','center','success','Done')
-            this.devicetype = ''
-            this.deviceserial = ''
-            this.date = ''
-            this.ICCID = ''
-            this.confirmedby = ''
-            this.customername = ''
-            this.servicenumber = ''
-            this.objectname = ''
-            this.technicianname = ''
-        })
+
     }
 
     assg(t: any) {
