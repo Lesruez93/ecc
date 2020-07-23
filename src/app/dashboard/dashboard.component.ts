@@ -359,7 +359,7 @@ let date =  moment(Date.now()).format('YYYY-MM-DD')
             console.log(fDate)
             console.log(nex7)
             this.af.collection('menu').doc(this.type)
-                .collection('records',ref => ref.where("technicianname",'==',this.techname)
+                .collection('records',ref => ref
                     .where('timestamp','>=',fDate).where(
                         'timestamp','<=',nex7
                     ))
@@ -381,7 +381,7 @@ let date =  moment(Date.now()).format('YYYY-MM-DD')
         }
     else {
             this.af.collection('menu').doc(this.type)
-            .collection('records',ref => ref.where("technicianname",'==',this.techname)
+            .collection('records',ref => ref
             .where('date','==',this.dateRange))
             .valueChanges({idField:'docid'}).subscribe(res=>{
             this.reports = res
