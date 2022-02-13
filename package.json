@@ -33,7 +33,7 @@
     "@angular/router": "6.0.2",
     "@ctrl/ngx-droppable": "^1.2.1",
     "@tinymce/tinymce-angular": "^3.3.1",
-    "ajv": "6.3.0",
+    "ajv": "6.12.3",
     "amazing-time-picker": "^1.5.3",
     "angular-calendar": "0.23.1",
     "angular-material-time-picker": "^1.0.8",
